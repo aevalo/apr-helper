@@ -3,6 +3,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <stdexcept>
 #include <apr_general.h>
 #include <apr_file_io.h>
 #include <apr_strings.h>
@@ -15,6 +16,10 @@
 template<class T>
 T array_element(const apr_array_header_t* arr, int index)
 {
+  if (arr == NULL)
+    throw std::invalid_argument("Array pointer given for array_element was NULL.");
+  if (index < 0 || index >= arr->nelts)
+    throw std::out_of_range("Index given for array_element was out of range.");
   return APR_ARRAY_IDX(arr, index, T);
 }
 
@@ -129,7 +134,7 @@ int main( int argc, char* argv[] )
   }
   
   std::cout << "Following sections and setting were found:" << std::endl;
-  for (int i = 0; i < sections.size(); i++)
+  for (std::size_t i = 0; i < sections.size(); i++)
   {
     std::cout << "[" << sections.at(i).first << "]" << std::endl;
     const apr_array_header_t* keys = apr_table_elts(sections.at(i).second);
