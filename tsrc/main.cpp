@@ -63,14 +63,13 @@ int main( int argc, char* argv[] )
     
     char line[ 256 ];
     rv = apr_file_gets(	line, sizeof( line ), iniFile );
-    if (rv.is_error())
+    if (rv.status() != APR_EOF && rv.is_error())
     {
         std::cerr << "Error occurred: " << rv.error_str() << std::endl;
     }
     try
     {
       char commentRegex[] = "^\\s*#\\s*(.+)\\s*$";
-      //char commentRegex[] = "^\\s*?#";
       char sectionRegex[] = "^\\s*\\[(.+)\\].*$";
       char keyvalRegex[] = "^\\s*(\\w+)\\s*=\\s*(.+)\\s*$";
       
@@ -118,6 +117,10 @@ int main( int argc, char* argv[] )
     }
     
     rv = apr_file_eof( iniFile );
+    if (rv.status() == APR_EOF)
+    {
+      sections.push_back(current);
+    }
   }
   
   std::cout << "Following sections and setting were found:" << std::endl;
