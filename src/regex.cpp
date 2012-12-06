@@ -1,5 +1,5 @@
 #include <sstream>
-#include "RegEx.hpp"
+#include "regex.hpp"
 
 
 regex::regex(const std::string& pattern)

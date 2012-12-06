@@ -9,7 +9,7 @@ INCLUDE(FindPackageHandleStandardArgs)
 FIND_PATH(APR_INCLUDE_DIR apr.h
   HINTS
   $ENV{APRDIR}
-  PATH_SUFFIXES include/apr include)
+  PATH_SUFFIXES include/apr include/apr-1 include)
 
 FIND_LIBRARY(APR_LIBRARY
   NAMES apr apr-1

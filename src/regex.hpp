@@ -1,7 +1,7 @@
 #ifndef REGEX_HPP_INCLUDED
 #define REGEX_HPP_INCLUDED
 
-#include <exception>
+#include <stdexcept>
 #include <string>
 #include <vector>
 #include <utility>

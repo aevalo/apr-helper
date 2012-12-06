@@ -7,7 +7,7 @@
 FIND_PATH(APR_UTIL_INCLUDE_DIR apu.h
   HINTS
   $ENV{APRUTILDIR}
-  PATH_SUFFIXES include/apr-util include)
+  PATH_SUFFIXES include/apr include/apr-1 include/apr-util include)
 
 FIND_LIBRARY(APR_UTIL_LIBRARY
   NAMES aprutil aprutil-1
