@@ -25,7 +25,7 @@ int main( int argc, char* argv[] )
   rv = pool.create();
   if (rv.is_error())
   {
-      std::cerr << "Error occurred: " << rv.errorStr() << std::endl;
+      std::cerr << "Error occurred: " << rv.error_str() << std::endl;
       apr_terminate();
       return 1;
   }
@@ -33,7 +33,7 @@ int main( int argc, char* argv[] )
   rv = apr_file_open( &iniFile, argv[ 1 ], APR_READ | APR_XTHREAD | APR_BUFFERED | APR_SHARELOCK, APR_OS_DEFAULT, pool );
   if (rv.is_error())
   {
-      std::cerr << "Error occurred: " << rv.errorStr() << std::endl;
+      std::cerr << "Error occurred: " << rv.error_str() << std::endl;
       apr_terminate();
       return 1;
   }
@@ -43,14 +43,14 @@ int main( int argc, char* argv[] )
   {
     if (rv.is_error())
     {
-        std::cerr << "Error occurred: " << rv.errorStr() << std::endl;
+        std::cerr << "Error occurred: " << rv.error_str() << std::endl;
     }
     
     char line[ 256 ];
     rv = apr_file_gets(	line, sizeof( line ), iniFile );
     if (rv.is_error())
     {
-        std::cerr << "Error occurred: " << rv.errorStr() << std::endl;
+        std::cerr << "Error occurred: " << rv.error_str() << std::endl;
     }
     try
     {
@@ -97,7 +97,7 @@ int main( int argc, char* argv[] )
   rv = apr_file_close( iniFile );
   if (rv.is_error())
   {
-      std::cerr << "Error occurred: " << rv.errorStr() << std::endl;
+      std::cerr << "Error occurred: " << rv.error_str() << std::endl;
       apr_terminate();
       return 1;
   }

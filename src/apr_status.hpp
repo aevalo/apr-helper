@@ -14,7 +14,7 @@ class apr_status : protected std::pair<apr_status_t, std::string>
     ~apr_status();
     
     inline apr_status_t status() { return first; }
-    inline const std::string& errorStr() { return second; }
+    inline const std::string& error_str() { return second; }
     inline bool is_error() const { return (first != APR_SUCCESS); }
 
     apr_status& operator=(apr_status_t status);

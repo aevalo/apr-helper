@@ -21,7 +21,7 @@ class regex : public non_copyable
 {
   public:
     regex(const std::string& pattern);
-    ~regex();
+    virtual ~regex();
     
     inline pcre* expression() { return mPattern.first; }
     inline pcre_extra* compiled_expression() { return mPattern.second; }
