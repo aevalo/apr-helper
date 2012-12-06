@@ -1,24 +1,37 @@
 #include <iostream>
 #include <cctype>
+#include <string>
+#include <utility>
+#include <vector>
 #include <apr_general.h>
 #include <apr_file_io.h>
 #include <apr_strings.h>
+#include <apr_tables.h>
 #include <pcre.h>
 #include <string.hpp>
 #include <regex.hpp>
 #include <mem_pool.hpp>
 
 
+typedef std::pair<std::string, apr_table_t*> ini_section;
+typedef std::vector<ini_section> ini_sections;
+
 int main( int argc, char* argv[] )
 {
   mem_pool pool;
   apr_status rv;
   apr_file_t* iniFile;
+  std::string file_name;
   
   if (argc < 2)
   {
       std::cerr << "Usage: " << argv[ 0 ] << " <ini file>" << std::endl;
-      return 1;
+      //return 1;
+      file_name = "../test.ini";
+  }
+  else
+  {
+    file_name = argv[1];
   }
   
   apr_initialize();
@@ -30,7 +43,7 @@ int main( int argc, char* argv[] )
       return 1;
   }
   
-  rv = apr_file_open( &iniFile, argv[ 1 ], APR_READ | APR_XTHREAD | APR_BUFFERED | APR_SHARELOCK, APR_OS_DEFAULT, pool );
+  rv = apr_file_open( &iniFile, file_name.c_str(), APR_READ | APR_XTHREAD | APR_BUFFERED | APR_SHARELOCK, APR_OS_DEFAULT, pool );
   if (rv.is_error())
   {
       std::cerr << "Error occurred: " << rv.error_str() << std::endl;
@@ -39,6 +52,8 @@ int main( int argc, char* argv[] )
   }
   
   rv = apr_file_eof( iniFile );
+  ini_section current("Default", apr_table_make(pool, 10));
+  ini_sections sections;
   while(rv.status() != APR_EOF)
   {
     if (rv.is_error())
@@ -73,12 +88,23 @@ int main( int argc, char* argv[] )
         if (matches.size() > 0)
         {
           std::cout << "Found section " << matches.at(1) << std::endl;
+          sections.push_back(current);
+          current = ini_section(matches.at(1), apr_table_make(pool, 10));
         }
         
         matches = keyval.match_sub(line);
         if (matches.size() > 0)
         {
           std::cout << matches.at(1) << " (" << matches.at(1).length() << ")" << " => " << matches.at(2) << " (" << matches.at(2).length() << ")" << std::endl;
+          const char* val = apr_table_get(current.second, matches.at(1).c_str());
+          if (val)
+          {
+            apr_table_set(current.second, matches.at(1).c_str(), matches.at(2).c_str());
+          }
+          else
+          {
+            apr_table_add(current.second, matches.at(1).c_str(), matches.at(2).c_str());
+          }
         }
       }
     }
@@ -94,6 +120,24 @@ int main( int argc, char* argv[] )
     rv = apr_file_eof( iniFile );
   }
   
+  std::cout << "Following sections and setting were found:" << std::endl;
+  for (int i = 0; i < sections.size(); i++)
+  {
+    std::cout << "[" << sections.at(i).first << "]" << std::endl;
+    const apr_array_header_t* keys = apr_table_elts(sections.at(i).second);
+    for (int j = 0; j < keys->nelts; j++)
+    {
+      const char* key = APR_ARRAY_IDX(keys, j, const char*);
+      if (key)
+      {
+        const char* val = apr_table_get(sections.at(i).second, key);
+        if (val)
+        {
+          std::cout << "  " << key << " = " << val << std::endl;
+        }
+      }
+    }
+  }
   rv = apr_file_close( iniFile );
   if (rv.is_error())
   {
