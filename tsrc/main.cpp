@@ -12,6 +12,11 @@
 #include <regex.hpp>
 #include <mem_pool.hpp>
 
+template<class T>
+T array_element(const apr_array_header_t* arr, int index)
+{
+  return APR_ARRAY_IDX(arr, index, T);
+}
 
 typedef std::pair<std::string, apr_table_t*> ini_section;
 typedef std::vector<ini_section> ini_sections;
@@ -130,7 +135,7 @@ int main( int argc, char* argv[] )
     const apr_array_header_t* keys = apr_table_elts(sections.at(i).second);
     for (int j = 0; j < keys->nelts; j++)
     {
-      const char* key = APR_ARRAY_IDX(keys, j, const char*);
+      const char* key = array_element<const char*>(keys, j);
       if (key)
       {
         const char* val = apr_table_get(sections.at(i).second, key);
