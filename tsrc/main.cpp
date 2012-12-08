@@ -49,6 +49,7 @@ int main( int argc, char* argv[] )
   if (rv.is_error())
   {
       std::cerr << "Error occurred: " << rv.error_str() << std::endl;
+      pool.destroy(APR_POOL__FILE_LINE__);
       apr_terminate();
       return 1;
   }
@@ -149,6 +150,7 @@ int main( int argc, char* argv[] )
   if (rv.is_error())
   {
       std::cerr << "Error occurred: " << rv.error_str() << std::endl;
+      pool.destroy(APR_POOL__FILE_LINE__);
       apr_terminate();
       return 1;
   }

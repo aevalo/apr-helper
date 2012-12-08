@@ -1,6 +1,5 @@
-#include <iostream>
 #include <cstring>
-#include <exception>
+#include <stdexcept>
 #include <apr_general.h>
 #include <apr_file_io.h>
 #include <apr_strings.h>
@@ -60,7 +59,6 @@ namespace apr_helper {
       str_beg++;
     while (str_end >= 0 && isspace(src[str_end]) != 0)
       str_end--;
-    std::cout << src[str_beg] << " - " << src[str_end] << std::endl;
     char* ret = NULL;
     if ((strlen(src + str_beg) > (str_end - str_beg)) > 0)
       ret = strncpy(dst, src + str_beg, (str_end - str_beg) + 1);
