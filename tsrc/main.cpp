@@ -12,16 +12,8 @@
 #include <string.hpp>
 #include <regex.hpp>
 #include <mem_pool.hpp>
+#include <apr_array.hpp>
 
-template<class T>
-T array_element(const apr_array_header_t* arr, int index)
-{
-  if (arr == NULL)
-    throw std::invalid_argument("Array pointer given for array_element was NULL.");
-  if (index < 0 || index >= arr->nelts)
-    throw std::out_of_range("Index given for array_element was out of range.");
-  return APR_ARRAY_IDX(arr, index, T);
-}
 
 typedef std::pair<std::string, apr_table_t*> ini_section;
 typedef std::vector<ini_section> ini_sections;
@@ -132,6 +124,8 @@ int main( int argc, char* argv[] )
       sections.push_back(current);
     }
   }
+
+
   
   std::cout << "Following sections and setting were found:" << std::endl;
   for (std::size_t i = 0; i < sections.size(); i++)
@@ -140,7 +134,7 @@ int main( int argc, char* argv[] )
     const apr_array_header_t* keys = apr_table_elts(sections.at(i).second);
     for (int j = 0; j < keys->nelts; j++)
     {
-      const char* key = array_element<const char*>(keys, j);
+      const char* key = apr_array_get<const char*>(keys, j);
       if (key)
       {
         const char* val = apr_table_get(sections.at(i).second, key);

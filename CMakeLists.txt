@@ -18,7 +18,7 @@ include_directories(${APR_INCLUDE_DIR} ${APR_UTIL_INCLUDE_DIR} ${PCRE_INCLUDE_DI
 # We are using statically linked version of APR
 add_definitions(-DAPR_DECLARE_STATIC)
 
-add_library(apr-helper STATIC src/string.cpp src/regex.cpp src/mem_pool.cpp src/apr_status.cpp)
+add_library(apr-helper STATIC src/string.cpp src/regex.cpp src/mem_pool.cpp src/apr_status.cpp src/apr_array.cpp)
 if(WIN32)
     target_link_libraries(apr-helper ${APR_LIBRARY} ${APR_UTIL_LIBRARY} ${PCRE_LIBRARY} Ws2_32.lib)
 else(WIN32)
