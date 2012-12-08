@@ -20,6 +20,13 @@ typedef std::vector<ini_section> ini_sections;
 
 int main( int argc, char* argv[] )
 {
+#ifdef WIN32
+  // Set console output code page to UTF-7
+  SetConsoleOutputCP(65000);
+  // Set console input code page to UTF-7
+  SetConsoleCP(65000);
+#endif
+
   mem_pool pool;
   apr_status rv;
   apr_file_t* iniFile;
@@ -27,9 +34,9 @@ int main( int argc, char* argv[] )
   
   if (argc < 2)
   {
-      std::cerr << "Usage: " << argv[0] << " <ini file>" << std::endl;
-      //return 1;
-      file_name = "../test_data/test.ini";
+    std::cerr << "Usage: " << argv[0] << " <ini file>" << std::endl;
+    //return 1;
+    file_name = "../test_data/test.ini";
   }
   else
   {
@@ -40,18 +47,18 @@ int main( int argc, char* argv[] )
   rv = pool.create();
   if (rv.is_error())
   {
-      std::cerr << "Error occurred: " << rv.error_str() << std::endl;
-      apr_terminate();
-      return 1;
+    std::cerr << "Error occurred: " << rv.error_str() << std::endl;
+    apr_terminate();
+    return 1;
   }
   
   rv = apr_file_open( &iniFile, file_name.c_str(), APR_READ | APR_XTHREAD | APR_BUFFERED | APR_SHARELOCK, APR_OS_DEFAULT, pool );
   if (rv.is_error())
   {
-      std::cerr << "Error occurred: " << rv.error_str() << std::endl;
-      pool.destroy(APR_POOL__FILE_LINE__);
-      apr_terminate();
-      return 1;
+    std::cerr << "Error occurred: " << rv.error_str() << std::endl;
+    pool.destroy(APR_POOL__FILE_LINE__);
+    apr_terminate();
+    return 1;
   }
   
   rv = apr_file_eof( iniFile );

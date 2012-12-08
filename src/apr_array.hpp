@@ -3,6 +3,7 @@
 
 #include <stdexcept>
 #include <apr_tables.h>
+#include <apr_helper_config.hpp>
 
 
 template<class T>

@@ -4,8 +4,9 @@
 #include <apr_general.h>
 #include <apr_status.hpp>
 #include <non_copyable.hpp>
+#include <apr_helper_config.hpp>
 
-class mem_pool : public non_copyable
+class APR_HELPER_API mem_pool : public non_copyable
 {
   public:
     mem_pool();

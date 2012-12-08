@@ -4,22 +4,21 @@
 
 
 apr_status::apr_status(const apr_status& other)
+  : mAprStatus(other.mAprStatus), mErrorStr(other.mErrorStr)
 {
-  this->first = other.first;
-  this->second = other.second;
 }
 
 apr_status::apr_status(apr_status_t status)
+  : mAprStatus(status), mErrorStr("")
 {
-  first = status;
-  if (first != APR_SUCCESS)
+  if (mAprStatus != APR_SUCCESS)
   {
     char buf[256];
     memset(buf, 0, 256);
-    char* ret = apr_strerror(first, buf, sizeof(buf));
+    char* ret = apr_strerror(mAprStatus, buf, sizeof(buf));
     if (ret)
     {
-      second = buf;
+      mErrorStr = buf;
     }
   }
 }
@@ -29,18 +28,19 @@ apr_status::~apr_status()
   // Nothing to do
 }
 
+
 apr_status& apr_status::operator=(apr_status_t status)
 {
-  first = status;
-  second = "";
-  if (first != APR_SUCCESS)
+  mAprStatus = status;
+  mErrorStr.clear();
+  if (mAprStatus != APR_SUCCESS)
   {
     char buf[256];
     memset(buf, 0, 256);
-    char* ret = apr_strerror(first, buf, sizeof(buf));
+    char* ret = apr_strerror(mAprStatus, buf, sizeof(buf));
     if (ret)
     {
-      second = buf;
+      mErrorStr = buf;
     }
   }
   return *this;
@@ -48,7 +48,7 @@ apr_status& apr_status::operator=(apr_status_t status)
 
 apr_status& apr_status::operator=(const apr_status& rhs)
 {
-  this->first = rhs.first;
-  this->second = rhs.second;
+  this->mAprStatus = rhs.mAprStatus;
+  this->mErrorStr = rhs.mErrorStr;
   return *this;
 }

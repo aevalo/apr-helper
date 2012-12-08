@@ -1,8 +1,9 @@
 #ifndef NON_COPYABLE_HPP_INCLUDED
 #define NON_COPYABLE_HPP_INCLUDED
 
+#include <apr_helper_config.hpp>
 
-class non_copyable
+class APR_HELPER_API non_copyable
 {
   protected:
     non_copyable () {}

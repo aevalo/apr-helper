@@ -7,17 +7,18 @@
 #include <utility>
 #include <pcre.h>
 #include <non_copyable.hpp>
+#include <apr_helper_config.hpp>
 
 
 
-class pcre_exception : public std::runtime_error
+class APR_HELPER_API pcre_exception : public std::runtime_error
 {
   public:
     pcre_exception(const std::string& msg = "") : runtime_error(msg) {}
 };
 
 
-class regex : public non_copyable
+class APR_HELPER_API regex : public non_copyable
 {
   public:
     regex(const std::string& pattern);
