@@ -13,6 +13,9 @@ Makefile*
 tmp/
 build/
 bin/
+include/
+lib/
+test_data/
 src/debug/
 src/release/
 CMakeCache.txt

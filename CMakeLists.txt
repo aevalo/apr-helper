@@ -41,11 +41,18 @@ endif(WIN32)
 add_library(apr-helper SHARED ${APR-HELPER_PUBLIC_HEADERS} ${APR-HELPER_SOURCES})
 
 set_target_properties(apr-helper PROPERTIES
-                        PUBLIC_HEADER APR-HELPER_PUBLIC_HEADERS
-                        VERSION APR-HELPER_VERSION
-                        SOVERSION APR-HELPER_VERSION)
+                        PUBLIC_HEADER "${APR-HELPER_PUBLIC_HEADERS}"
+                          VERSION "${APR-HELPER_VERSION}"
+                        SOVERSION "${APR-HELPER_VERSION}")
 
 target_link_libraries(apr-helper ${APR-HELPER_NEEDED_LIBRARIES})
 
 add_executable(dump_ini tsrc/main.cpp)
 target_link_libraries(dump_ini apr-helper)
+
+install(TARGETS apr-helper dump_ini
+            RUNTIME DESTINATION bin
+            PUBLIC_HEADER DESTINATION include/apr-helper
+            LIBRARY DESTINATION lib
+            ARCHIVE DESTINATION lib/static)
+install(FILES test.ini DESTINATION test_data)
