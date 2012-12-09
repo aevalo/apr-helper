@@ -4,6 +4,7 @@
 #include <utility>
 #include <vector>
 #include <stdexcept>
+#include <direct.h>
 #include <apr_general.h>
 #include <apr_file_io.h>
 #include <apr_strings.h>
@@ -14,6 +15,11 @@
 #include <mem_pool.hpp>
 #include <apr_array.hpp>
 #include <apr_helper_init.hpp>
+
+
+#ifdef WIN32
+# define getcwd _getcwd
+#endif
 
 
 typedef std::pair<std::string, apr_table_t*> ini_section;
@@ -37,7 +43,29 @@ int main( int argc, char* argv[] )
   {
     std::cerr << "Usage: " << argv[0] << " <ini file>" << std::endl;
     //return 1;
+    char buf[256];
+    char* ret = getcwd(buf, sizeof(buf));
+    if (ret)
+    {
+      std::string cwd(buf);
+      if (cwd.find("bin") != std::string::npos)
+      {
+#ifdef WIN32
+    file_name = "..\\test_data\\test.ini";
+#else
     file_name = "../test_data/test.ini";
+#endif
+      }
+      else
+      {
+#ifdef WIN32
+    file_name = ".\\test_data\\test.ini";
+#else
+    file_name = "./test_data/test.ini";
+#endif
+      }
+    }
+
   }
   else
   {
