@@ -13,6 +13,7 @@
 #include <regex.hpp>
 #include <mem_pool.hpp>
 #include <apr_array.hpp>
+#include <apr_helper_init.hpp>
 
 
 typedef std::pair<std::string, apr_table_t*> ini_section;
@@ -44,15 +45,20 @@ int main( int argc, char* argv[] )
   }
   
   apr_initialize();
+  apr_helper_initialize();
+
   rv = pool.create();
   if (rv.is_error())
   {
     std::cerr << "Error occurred: " << rv.error_str() << std::endl;
+    pool.destroy(APR_POOL__FILE_LINE__);
     apr_terminate();
     return 1;
   }
   
-  rv = apr_file_open( &iniFile, file_name.c_str(), APR_READ | APR_XTHREAD | APR_BUFFERED | APR_SHARELOCK, APR_OS_DEFAULT, pool );
+  std::cout << "Attempting to open input file." << std::endl;
+  rv = apr_file_open(&iniFile, file_name.c_str(), APR_READ | APR_XTHREAD | APR_BUFFERED | APR_SHARELOCK, APR_OS_DEFAULT, pool);
+  std::cout << "Got: " << rv.status() << std::endl;
   if (rv.is_error())
   {
     std::cerr << "Error occurred: " << rv.error_str() << std::endl;
@@ -161,8 +167,11 @@ int main( int argc, char* argv[] )
       apr_terminate();
       return 1;
   }
+
   pool.destroy(APR_POOL__FILE_LINE__);
+
   apr_terminate();
-  
+  apr_helper_terminate();
+
   return 0;
 }

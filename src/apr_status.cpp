@@ -1,16 +1,19 @@
 #include <exception>
+#include <cstdio>
 #include "apr_status.hpp"
 
 
 
 apr_status::apr_status(const apr_status& other)
-  : mAprStatus(other.mAprStatus), mErrorStr(other.mErrorStr)
+  : mAprStatus(other.mAprStatus)
 {
+  _snprintf(mErrorStr, 256, "%s", other.mErrorStr);
 }
 
 apr_status::apr_status(apr_status_t status)
-  : mAprStatus(status), mErrorStr("")
+  : mAprStatus(status)
 {
+  memset(mErrorStr, 0, 256);
   if (mAprStatus != APR_SUCCESS)
   {
     char buf[256];
@@ -18,7 +21,8 @@ apr_status::apr_status(apr_status_t status)
     char* ret = apr_strerror(mAprStatus, buf, sizeof(buf));
     if (ret)
     {
-      mErrorStr = buf;
+      //mErrorStr = buf;
+      _snprintf(mErrorStr, 256, "%s", buf);
     }
   }
 }
@@ -32,7 +36,8 @@ apr_status::~apr_status()
 apr_status& apr_status::operator=(apr_status_t status)
 {
   mAprStatus = status;
-  mErrorStr.clear();
+  //mErrorStr.clear();
+  memset(mErrorStr, 0, 256);
   if (mAprStatus != APR_SUCCESS)
   {
     char buf[256];
@@ -40,7 +45,8 @@ apr_status& apr_status::operator=(apr_status_t status)
     char* ret = apr_strerror(mAprStatus, buf, sizeof(buf));
     if (ret)
     {
-      mErrorStr = buf;
+      //mErrorStr = buf;
+      _snprintf(mErrorStr, 256, "%s", buf);
     }
   }
   return *this;
@@ -49,6 +55,6 @@ apr_status& apr_status::operator=(apr_status_t status)
 apr_status& apr_status::operator=(const apr_status& rhs)
 {
   this->mAprStatus = rhs.mAprStatus;
-  this->mErrorStr = rhs.mErrorStr;
+  _snprintf(mErrorStr, 256, "%s", rhs.mErrorStr);
   return *this;
 }

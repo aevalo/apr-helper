@@ -8,7 +8,11 @@
 #include <pcre.h>
 #include <non_copyable.hpp>
 #include <apr_helper_config.hpp>
+#include <regex>
 
+
+APR_HELPER_TEMPLATE class APR_HELPER_API std::runtime_error;
+APR_HELPER_TEMPLATE template struct APR_HELPER_API std::pair<pcre*, pcre_extra*>;
 
 
 class APR_HELPER_API pcre_exception : public std::runtime_error
