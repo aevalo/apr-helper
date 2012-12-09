@@ -85,7 +85,7 @@ int main( int argc, char* argv[] )
       if (paf.first.find("bin") != std::string::npos)
       {
 #ifdef WIN32
-    file_name = paf.first + "..\\test_data\\test.ini";
+    file_name = paf.first + "\\..\\test_data\\test.ini";
 #else
     file_name = paf.first + "/../test_data/test.ini";
 #endif
