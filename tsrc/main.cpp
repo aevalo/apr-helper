@@ -4,7 +4,11 @@
 #include <utility>
 #include <vector>
 #include <stdexcept>
-#include <direct.h>
+#ifdef WIN32
+#include <direct.h>		// For _getcwd()
+#else
+#include <unistd.h>		// For getcwd()
+#endif
 #include <apr_general.h>
 #include <apr_file_io.h>
 #include <apr_strings.h>
@@ -16,6 +20,32 @@
 #include <apr_array.hpp>
 #include <apr_helper_init.hpp>
 
+
+#ifdef WIN32
+std::string get_exe_path()
+  {
+  char result[ MAX_PATH ];
+  return std::string( result, GetModuleFileName( NULL, result, MAX_PATH ) );
+  }
+#else
+std::string get_exe_path()
+  {
+  char result[ PATH_MAX ];
+  ssize_t count = readlink( "/proc/self/exe", result, PATH_MAX );
+  return std::string( result, (count > 0) ? count : 0 );
+  }
+#endif
+
+
+typedef std::pair<std::string, std::string> path_and_file;
+path_and_file split_filename (const std::string& str)
+{
+  std::size_t found = str.find_last_of("/\\");
+  path_and_file ret;
+  ret.first = str.substr(0, found);
+  ret.second = str.substr(found + 1);
+  return ret;
+}
 
 #ifdef WIN32
 # define getcwd _getcwd
@@ -43,29 +73,33 @@ int main( int argc, char* argv[] )
   {
     std::cerr << "Usage: " << argv[0] << " <ini file>" << std::endl;
     //return 1;
+    std::string exe_path = get_exe_path();
+    path_and_file paf = split_filename(exe_path);
+    std::cout << "Path: " << paf.first << std::endl
+              << "Filename: " << paf.second << std::endl;
     char buf[256];
     char* ret = getcwd(buf, sizeof(buf));
     if (ret)
     {
       std::string cwd(buf);
-      if (cwd.find("bin") != std::string::npos)
+      if (paf.first.find("bin") != std::string::npos)
       {
 #ifdef WIN32
-    file_name = "..\\test_data\\test.ini";
+    file_name = paf.first + "..\\test_data\\test.ini";
 #else
-    file_name = "../test_data/test.ini";
+    file_name = paf.first + "/../test_data/test.ini";
 #endif
       }
       else
       {
 #ifdef WIN32
-    file_name = ".\\test_data\\test.ini";
+    file_name = paf.first + "\\test_data\\test.ini";
 #else
-    file_name = "./test_data/test.ini";
+    file_name = paf.first + "/test_data/test.ini";
 #endif
       }
     }
-
+    std::cout << "Loading test input from file " << file_name << std::endl;
   }
   else
   {
