@@ -7,6 +7,8 @@ find_package(PCRE REQUIRED)
 
 add_definitions(-DAPR_DECLARE_STATIC)
 
+# For exampe g++ needs this.
+# Visual Studio 2010 apparently does not.
 if(APR_HELPER_BUILD_HAS_CXX11)
   set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -std=c++11")
   set(CMAKE_CXX_FLAGS_MINSIZEREL "${CMAKE_CXX_FLAGS_MINSIZEREL} -std=c++11")
