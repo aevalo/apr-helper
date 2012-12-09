@@ -2,12 +2,16 @@
 #include <cstdio>
 #include "apr_status.hpp"
 
+#ifdef WIN32
+# define snprintf _snprintf
+#endif
+
 
 
 apr_status::apr_status(const apr_status& other)
   : mAprStatus(other.mAprStatus)
 {
-  _snprintf(mErrorStr, 256, "%s", other.mErrorStr);
+  snprintf(mErrorStr, 256, "%s", other.mErrorStr);
 }
 
 apr_status::apr_status(apr_status_t status)
@@ -22,7 +26,7 @@ apr_status::apr_status(apr_status_t status)
     if (ret)
     {
       //mErrorStr = buf;
-      _snprintf(mErrorStr, 256, "%s", buf);
+      snprintf(mErrorStr, 256, "%s", buf);
     }
   }
 }
@@ -46,7 +50,7 @@ apr_status& apr_status::operator=(apr_status_t status)
     if (ret)
     {
       //mErrorStr = buf;
-      _snprintf(mErrorStr, 256, "%s", buf);
+      snprintf(mErrorStr, 256, "%s", buf);
     }
   }
   return *this;
@@ -55,6 +59,6 @@ apr_status& apr_status::operator=(apr_status_t status)
 apr_status& apr_status::operator=(const apr_status& rhs)
 {
   this->mAprStatus = rhs.mAprStatus;
-  _snprintf(mErrorStr, 256, "%s", rhs.mErrorStr);
+  snprintf(mErrorStr, 256, "%s", rhs.mErrorStr);
   return *this;
 }

@@ -56,9 +56,7 @@ int main( int argc, char* argv[] )
     return 1;
   }
   
-  std::cout << "Attempting to open input file." << std::endl;
   rv = apr_file_open(&iniFile, file_name.c_str(), APR_READ | APR_XTHREAD | APR_BUFFERED | APR_SHARELOCK, APR_OS_DEFAULT, pool);
-  std::cout << "Got: " << rv.status() << std::endl;
   if (rv.is_error())
   {
     std::cerr << "Error occurred: " << rv.error_str() << std::endl;

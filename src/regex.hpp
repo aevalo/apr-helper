@@ -11,7 +11,7 @@
 #include <regex>
 
 
-APR_HELPER_TEMPLATE class APR_HELPER_API std::runtime_error;
+//APR_HELPER_TEMPLATE class APR_HELPER_API std::runtime_error;
 APR_HELPER_TEMPLATE template struct APR_HELPER_API std::pair<pcre*, pcre_extra*>;
 
 
