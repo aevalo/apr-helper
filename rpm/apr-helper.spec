@@ -12,31 +12,24 @@ Requires:           apr, apr-util, pcre
 %description
 Simplify the usage of Apache Portable Runtime with C++.
 
-
 %prep
 %setup -q
 
 %build
 mkdir build
 cd build
-cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=%_buildrootdir -DAPR_HELPER_BUILD_HAS_CXX11=1 -DAPR_HELPER_BUILD_SHARED=1 ..
+cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=%{buildroot} -DAPR_HELPER_BUILD_HAS_CXX11=1 -DAPR_HELPER_BUILD_SHARED=1 ..
 make %{?_smp_mflags}
 
 %install
-#make DESTDIR=%{buildroot} install
 cd build
 make install
 
-#install -m 755 -d %{buildroot}/%{_sbindir}
-#ln -s ../bin/eject %{buildroot}/%{_sbindir}
-
-#%find_lang %{name}
-
-#%files -f %{name}.lang
-#%doc README TODO COPYING ChangeLog
-#%{_bindir}/*
-#%{_sbindir}/*
-#%{_mandir}/man1/*
+%files
+/include/*
+/lib/*
+/bin/*
+/test_data/*
 
 %changelog
 * Mon Dec 10 2012 Arttu Valo <arttu.valo@gmail.com> 0.1.0-20

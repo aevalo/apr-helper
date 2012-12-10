@@ -3,11 +3,11 @@
 TOPDIR=`pwd`
 RPMDIR=$TOPDIR/rpm
 SRCDIR=$RPMDIR/SOURCES
-PKGNAME=apr-helper
-PKGVERSION=0.1.0
+PKGNAME=`grep Name $RPMDIR/apr-helper.spec | awk -F" " '{ print $2 }'`
+PKGVERSION=`grep Version $RPMDIR/apr-helper.spec | awk -F" " '{ print $2 }'`
 TGZDIR=$SRCDIR/$PKGNAME-$PKGVERSION
 
-echo "Creating source pakage..."
+echo "Creating source pakage $PKGNAME-$PKGVERSION.tar.gz..."
 rm -rf $RPMDIR/BUILD $RPMDIR/BUILDROOT $RPMDIR/RPMS $RPMDIR/SOURCES $RPMDIR/SRPMS $RPMDIR/SPECS
 mkdir -p $TGZDIR/cmake
 mkdir -p $TGZDIR/rpm
