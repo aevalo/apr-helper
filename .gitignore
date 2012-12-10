@@ -23,3 +23,9 @@ CMakeFiles
 Makefile
 cmake_install.cmake
 install_manifest.txt
+rpm/SOURCES
+rpm/SPECS
+rpm/BUILD
+rpm/BUILDROOT
+rpm/RPMS
+rpm/SRPMS
