@@ -9,3 +9,6 @@ EnsureOutOfSourceBuild("Out-of-source build required.")
 
 add_subdirectory(src)
 add_subdirectory(tsrc)
+
+file(GLOB APR_HELPER_CMAKE_MODULES RELATIVE ${CMAKE_SOURCE_DIR} "${CMAKE_SOURCE_DIR}/cmake/Modules/*.cmake")
+install(FILES ${APR_HELPER_CMAKE_MODULES} DESTINATION share/apr-helper/cmake/Modules)
