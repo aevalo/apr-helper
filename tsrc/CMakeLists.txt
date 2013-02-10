@@ -26,4 +26,4 @@ add_executable(dump_ini main.cpp)
 target_link_libraries(dump_ini ${APR_LIBRARY} ${APR_UTIL_LIBRARY} ${PCRE_LIBRARY} apr-helper)
 
 install(TARGETS dump_ini RUNTIME DESTINATION bin)
-install(FILES test.ini DESTINATION test_data)
+install(FILES test.ini test.json DESTINATION test_data)
