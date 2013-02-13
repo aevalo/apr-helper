@@ -17,6 +17,7 @@ include/*
 lib/*
 test_data/*
 share/*
+dist/*
 src/debug/*
 src/release/*
 CMakeCache.txt

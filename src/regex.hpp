@@ -8,7 +8,7 @@
 #include <pcre.h>
 #include <non_copyable.hpp>
 #include <apr_helper_config.hpp>
-#include <regex>
+//#include <regex>
 
 
 //APR_HELPER_TEMPLATE class APR_HELPER_API std::runtime_error;

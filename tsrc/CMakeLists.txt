@@ -25,5 +25,12 @@ include_directories(${APR_INCLUDE_DIR} ${PCRE_INCLUDE_DIR} ${CMAKE_HOME_DIRECTOR
 add_executable(dump_ini main.cpp)
 target_link_libraries(dump_ini ${APR_LIBRARY} ${APR_UTIL_LIBRARY} ${PCRE_LIBRARY} apr-helper)
 
+add_executable(checksummer checksummer.cpp)
+target_link_libraries(checksummer ${APR_LIBRARY} ${APR_UTIL_LIBRARY})
+
+add_executable(gen_random gen_random.cpp)
+target_link_libraries(gen_random ${APR_LIBRARY} ${APR_UTIL_LIBRARY})
+
 install(TARGETS dump_ini RUNTIME DESTINATION bin)
-install(FILES test.ini test.json DESTINATION share/apr-helper/test_data)
+install(FILES test.ini test.json 2048Bytes.bin Hello.txt DESTINATION share/apr-helper/test_data)
+
