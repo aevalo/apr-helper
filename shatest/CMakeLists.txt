@@ -5,6 +5,7 @@ find_package(PkgConfig REQUIRED)
 pkg_search_module(APR REQUIRED apr-1)
 pkg_search_module(APR_UTIL REQUIRED apr-util-1)
 
+set(Python_ADDITIONAL_VERSIONS 2.7)
 find_package(PythonLibs REQUIRED)
 
 include_directories(${APR_INCLUDE_DIRS} ${APR_UTIL_INCLUDE_DIRS} ${PYTHON_INCLUDE_DIRS} src/)

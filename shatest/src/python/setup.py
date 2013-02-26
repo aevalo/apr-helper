@@ -4,14 +4,15 @@ import sys, os
 
 version = '0.1'
 
-setup(name='sha1',
+setup(name='sha1py',
       version=version,
       description='SHA1 Checksum Package',
-      packages=find_packages('sha1', exclude=['tests']),
+      #packages=find_packages('.', exclude=['tests']),
+      packages=['sha1py', 'tests'],
       ext_modules=[
-        Extension('sha1', ['sha1/src/sha1module.cpp'], language='c++',
+        Extension('sha1', ['src/sha1module.cpp'], language='c++',
         	libraries=['sha1_checksum'],
-        	library_dirs = ['../../build'],
+        	library_dirs = ['../../../build/shatest'],
         	include_dirs = ['..'])
         ],
       include_package_data=True,
