@@ -31,7 +31,7 @@ apr_status_t sha1_file(const std::string& filename, std::string& checksum, bool 
       memset(buffer, 0, sizeof(buffer));
 
       apr_size_t bytes_read = 0;
-      ret = apr_file_read_full(in, buffer, 512, &bytes_read);
+      ret = apr_file_read_full(in, buffer, sizeof(buffer) - 1, &bytes_read);
 
       if(ret == APR_SUCCESS || ret == APR_EOF)
       {
@@ -41,7 +41,7 @@ apr_status_t sha1_file(const std::string& filename, std::string& checksum, bool 
 
       while(ret == APR_SUCCESS)
       {
-        ret = apr_file_read_full(in, buffer, 512, &bytes_read);
+        ret = apr_file_read_full(in, buffer, sizeof(buffer) - 1, &bytes_read);
         if(ret == APR_SUCCESS || ret == APR_EOF)
         {
           if(binary) apr_sha1_update_binary(&context, buffer, bytes_read);
