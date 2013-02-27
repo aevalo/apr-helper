@@ -11,18 +11,20 @@ include_directories(${APR_INCLUDE_DIR} ${APR_UTIL_INCLUDE_DIR} ${PCRE_INCLUDE_DI
 add_definitions(-DAPR_DECLARE_STATIC)
 
 set(APR-HELPER_VERSION_MAJOR 0)
-set(APR-HELPER_VERSION_MINOR 1)
+set(APR-HELPER_VERSION_MINOR 2)
 set(APR-HELPER_VERSION_PATCH 0)
 set(APR-HELPER_VERSION ${APR-HELPER_VERSION_MAJOR}.${APR-HELPER_VERSION_MINOR}.${APR-HELPER_VERSION_PATCH})
 
 set(APR-HELPER_PUBLIC_HEADERS   apr_array.hpp apr_status.hpp mem_pool.hpp
                                 non_copyable.hpp regex.hpp string.hpp
-                                apr_helper_config.hpp apr_helper_init.hpp)
+                                apr_helper_config.hpp apr_helper_init.hpp
+                                sha1_checksum.hpp)
 
 # No private headers at this time
 #set(APR-HELPER_PRIVATE_HEADERS  )
 
-set(APR-HELPER_SOURCES apr_array.cpp apr_status.cpp mem_pool.cpp regex.cpp string.cpp apr_helper_init.cpp)
+set(APR-HELPER_SOURCES  apr_array.cpp apr_status.cpp mem_pool.cpp regex.cpp string.cpp apr_helper_init.cpp
+                        sha1_checksum.cpp)
 
 set(APR-HELPER_NEEDED_LIBRARIES ${APR_LIBRARY} ${APR_UTIL_LIBRARY} ${PCRE_LIBRARY})
 if(WIN32)

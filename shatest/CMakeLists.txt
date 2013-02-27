@@ -24,7 +24,7 @@ target_link_libraries(sha1_checksum ${APR_LIBRARIES} ${APR_UTIL_LIBRARIES})
 PYTHON_ADD_MODULE(spam src/spammodule.cpp src/sha1_checksum.cpp)
 target_link_libraries(spam ${PYTHON_LIBRARIES} ${APR_LIBRARIES} ${APR_UTIL_LIBRARIES})
 
-PYTHON_ADD_MODULE(sha1 src/python/sha1/src/sha1module.cpp)
+PYTHON_ADD_MODULE(sha1 src/python/src/sha1module.cpp)
 target_link_libraries(sha1 ${PYTHON_LIBRARIES} sha1_checksum)
 
 add_dependencies(spam shatest shortopts longopts)
