@@ -31,3 +31,7 @@ rpm/BUILD
 rpm/BUILDROOT
 rpm/RPMS
 rpm/SRPMS
+
+shatest/src/python/build/*
+shatest/src/python/dist/*
+shatest/src/python/sha1py.egg-info/*

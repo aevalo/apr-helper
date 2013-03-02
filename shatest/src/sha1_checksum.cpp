@@ -4,6 +4,9 @@
 #include <apr_sha1.h>
 #include <apr_file_io.h>
 
+#include "sha1_checksum.hpp"
+
+
 int sha1_file(const std::string& filename, std::string& checksum, bool binary)
 {
   apr_initialize();
